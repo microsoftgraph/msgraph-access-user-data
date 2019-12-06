@@ -41,7 +41,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version | Date              | Comments             |
 | ------- | ----------------- | -------------------- |
-| 1.0     | November 18, 2019 | New module published |
+| 1.0     | December 11, 2019 | New module published |
 
 ## Disclaimer
 
