@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security;
@@ -56,7 +59,7 @@ namespace Helpers
             return silentResult.AccessToken;
           }
         }
-        catch (MsalUiRequiredException){ }
+        catch (MsalUiRequiredException) { }
       }
 
       var result = await _clientApplication.AcquireTokenByUsernamePassword(_scopes, _username, _password).ExecuteAsync();
