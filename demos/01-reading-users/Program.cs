@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Security;
 using Microsoft.Identity.Client;
@@ -6,7 +9,7 @@ using Microsoft.Graph;
 using Microsoft.Extensions.Configuration;
 using Helpers;
 
-namespace graphusers01
+namespace graphconsoleapp
 {
   class Program
   {
@@ -27,36 +30,56 @@ namespace graphusers01
       var client = GetAuthenticatedGraphClient(config, userName, userPassword);
 
       // request 1 - all users
-      // var requestAllUsers = client.Users.Request();
+      //   var requestAllUsers = client.Users.Request();
 
-      // var results = requestAllUsers.GetAsync().Result;
-      // foreach (var user in results)
-      // {
-      //   Console.WriteLine(user.Id + ": " + user.DisplayName + " <" + user.Mail + ">");
-      // }
+      //   var results = requestAllUsers.GetAsync().Result;
+      //   foreach (var user in results)
+      //   {
+      //     Console.WriteLine(user.Id + ": " + user.DisplayName + " <" + user.Mail + ">");
+      //   }
 
-      // Console.WriteLine("\nGraph Request:");
-      // Console.WriteLine(requestAllUsers.GetHttpRequestMessage().RequestUri);
+      //   Console.WriteLine("\nGraph Request:");
+      //   Console.WriteLine(requestAllUsers.GetHttpRequestMessage().RequestUri);
 
       // request 2 - current user
-      // var requestMeUser = client.Me.Request();
+      //   var requestMeUser = client.Me.Request();
 
-      // var resultMe = requestMeUser.GetAsync().Result;
-      // Console.WriteLine(resultMe.Id + ": " + resultMe.DisplayName + " <" + resultMe.Mail + ">");
+      //   var resultMe = requestMeUser.GetAsync().Result;
+      //   Console.WriteLine(resultMe.Id + ": " + resultMe.DisplayName + " <" + resultMe.Mail + ">");
 
-      // Console.WriteLine("\nGraph Request:");
-      // Console.WriteLine(requestMeUser.GetHttpRequestMessage().RequestUri);
+      //   Console.WriteLine("\nGraph Request:");
+      //   Console.WriteLine(requestMeUser.GetHttpRequestMessage().RequestUri);
 
       // request 3 - specific user
-      // var requestSpecificUser = client.Users.Request()
-      //                                       .Filter("Id eq '460c06cb-fe2c-4271-a65e-c42da1f724af'");
-      // var resultOtherUser = requestSpecificUser.GetAsync().Result[0];
-      var requestSpecificUser = client.Users["460c06cb-fe2c-4271-a65e-c42da1f724af"].Request();
+      var requestSpecificUser = client.Users["851f0875-e1c1-4c7e-bdec-3143bb3d4192"].Request();
       var resultOtherUser = requestSpecificUser.GetAsync().Result;
       Console.WriteLine(resultOtherUser.Id + ": " + resultOtherUser.DisplayName + " <" + resultOtherUser.Mail + ">");
 
       Console.WriteLine("\nGraph Request:");
       Console.WriteLine(requestSpecificUser.GetHttpRequestMessage().RequestUri);
+    }
+
+    private static IConfigurationRoot LoadAppSettings()
+    {
+      try
+      {
+        var config = new ConfigurationBuilder()
+                          .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                          .AddJsonFile("appsettings.json", false, true)
+                          .Build();
+
+        if (string.IsNullOrEmpty(config["applicationId"]) ||
+            string.IsNullOrEmpty(config["tenantId"]))
+        {
+          return null;
+        }
+
+        return config;
+      }
+      catch (System.IO.FileNotFoundException)
+      {
+        return null;
+      }
     }
 
     private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config, string userName, SecureString userPassword)
@@ -81,14 +104,6 @@ namespace graphusers01
       return graphClient;
     }
 
-    private static string ReadUsername()
-    {
-      string username;
-      Console.WriteLine("Enter your username");
-      username = Console.ReadLine();
-      return username;
-    }
-
     private static SecureString ReadPassword()
     {
       Console.WriteLine("Enter your password");
@@ -107,27 +122,12 @@ namespace graphusers01
       return password;
     }
 
-    private static IConfigurationRoot LoadAppSettings()
+    private static string ReadUsername()
     {
-      try
-      {
-        var config = new ConfigurationBuilder()
-                          .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                          .AddJsonFile("appsettings.json", false, true)
-                          .Build();
-
-        if (string.IsNullOrEmpty(config["applicationId"]) ||
-            string.IsNullOrEmpty(config["tenantId"]))
-        {
-          return null;
-        }
-
-        return config;
-      }
-      catch (System.IO.FileNotFoundException)
-      {
-        return null;
-      }
+      string username;
+      Console.WriteLine("Enter your username");
+      username = Console.ReadLine();
+      return username;
     }
   }
 }

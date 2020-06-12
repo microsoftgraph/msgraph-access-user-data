@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Security;
 using Microsoft.Identity.Client;
@@ -6,7 +9,7 @@ using Microsoft.Graph;
 using Microsoft.Extensions.Configuration;
 using Helpers;
 
-namespace graphusers01
+namespace graphconsoleapp
 {
   class Program
   {
@@ -27,37 +30,35 @@ namespace graphusers01
       var client = GetAuthenticatedGraphClient(config, userName, userPassword);
 
       // request 1 - current user's photo
+      // var requestUserPhoto = client.Me.Photo.Request();
+      // var resultsUserPhoto = requestUserPhoto.GetAsync().Result;
+      // // display photo metadata
+      // Console.WriteLine("                Id: " + resultsUserPhoto.Id);
+      // Console.WriteLine("media content type: " + resultsUserPhoto.AdditionalData["@odata.mediaContentType"]);
+      // Console.WriteLine("        media etag: " + resultsUserPhoto.AdditionalData["@odata.mediaEtag"]);
 
-      var requestUserPhoto = client.Me.Photo.Request();
-      var resultsUserPhoto = requestUserPhoto.GetAsync().Result;
-      // display photo metadata
-      Console.WriteLine("                Id: " + resultsUserPhoto.Id);
-      Console.WriteLine("media content type: " + resultsUserPhoto.AdditionalData["@odata.mediaContentType"]);
-      Console.WriteLine("        media etag: " + resultsUserPhoto.AdditionalData["@odata.mediaEtag"]);
+      // Console.WriteLine("\nGraph Request:");
+      // Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
 
-      Console.WriteLine("\nGraph Request:");
-      Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
+      // // get actual photo
+      // var requestUserPhotoFile = client.Me.Photo.Content.Request();
+      // var resultUserPhotoFile = requestUserPhotoFile.GetAsync().Result;
 
+      // // create the file      
+      // var profilePhotoPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "profilePhoto_" + resultsUserPhoto.Id + ".jpg");
+      // var profilePhotoFile = System.IO.File.Create(profilePhotoPath);
+      // resultUserPhotoFile.Seek(0, System.IO.SeekOrigin.Begin);
+      // resultUserPhotoFile.CopyTo(profilePhotoFile);
+      // Console.WriteLine("Saved file to: " + profilePhotoPath);
 
-      // get actual photo
-      var requestUserPhotoFile = client.Me.Photo.Content.Request();
-      var resultUserPhotoFile = requestUserPhotoFile.GetAsync().Result;
-
-      // create the file
-      var profilePhotoPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "profilePhoto_" + resultsUserPhoto.Id + ".jpg");
-      var profilePhotoFile = System.IO.File.Create(profilePhotoPath);
-      resultUserPhotoFile.Seek(0, System.IO.SeekOrigin.Begin);
-      resultUserPhotoFile.CopyTo(profilePhotoFile);
-      Console.WriteLine("Saved file to: " + profilePhotoPath);
-
-      Console.WriteLine("\nGraph Request:");
-      Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
+      // Console.WriteLine("\nGraph Request:");
+      // Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
 
       // request 2 - user's manager
-      var userId = "70c095fe-df9d-4250-867d-f298e237d681";
+      var userId = "851f0875-e1c1-4c7e-bdec-3143bb3d4192";
       var requestUserManager = client.Users[userId]
-                                      .Manager
-                                      .Request();
+                                     .Manager
+                                     .Request();
       var resultsUserManager = requestUserManager.GetAsync().Result;
       Console.WriteLine("   User: " + userId);
       Console.WriteLine("Manager: " + resultsUserManager.Id);
@@ -66,6 +67,29 @@ namespace graphusers01
 
       Console.WriteLine("\nGraph Request:");
       Console.WriteLine(requestUserManager.GetHttpRequestMessage().RequestUri);
+    }
+
+    private static IConfigurationRoot LoadAppSettings()
+    {
+      try
+      {
+        var config = new ConfigurationBuilder()
+                          .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                          .AddJsonFile("appsettings.json", false, true)
+                          .Build();
+
+        if (string.IsNullOrEmpty(config["applicationId"]) ||
+            string.IsNullOrEmpty(config["tenantId"]))
+        {
+          return null;
+        }
+
+        return config;
+      }
+      catch (System.IO.FileNotFoundException)
+      {
+        return null;
+      }
     }
 
     private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config, string userName, SecureString userPassword)
@@ -90,14 +114,6 @@ namespace graphusers01
       return graphClient;
     }
 
-    private static string ReadUsername()
-    {
-      string username;
-      Console.WriteLine("Enter your username");
-      username = Console.ReadLine();
-      return username;
-    }
-
     private static SecureString ReadPassword()
     {
       Console.WriteLine("Enter your password");
@@ -116,27 +132,12 @@ namespace graphusers01
       return password;
     }
 
-    private static IConfigurationRoot LoadAppSettings()
+    private static string ReadUsername()
     {
-      try
-      {
-        var config = new ConfigurationBuilder()
-                          .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                          .AddJsonFile("appsettings.json", false, true)
-                          .Build();
-
-        if (string.IsNullOrEmpty(config["applicationId"]) ||
-            string.IsNullOrEmpty(config["tenantId"]))
-        {
-          return null;
-        }
-
-        return config;
-      }
-      catch (System.IO.FileNotFoundException)
-      {
-        return null;
-      }
+      string username;
+      Console.WriteLine("Enter your username");
+      username = Console.ReadLine();
+      return username;
     }
   }
 }
