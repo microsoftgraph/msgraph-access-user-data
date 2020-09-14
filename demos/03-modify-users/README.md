@@ -4,7 +4,7 @@ This completed project is the result of the lab exercise **Modifying users** tha
 
 ## Prerequisites
 
-- Office 365 Tenancy
+- [Microsoft 365 tenant](https://developer.microsoft.com/office/dev-program?ocid=MSlearn)
 - [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -13,7 +13,6 @@ This completed project is the result of the lab exercise **Modifying users** tha
 - Create an Azure AD application by following the instructions in the lab exercise associated with this demo. In this step, you are instructed to collect these data elements:
   - tenantId
   - applicationId
-  - applicationSecret
 - Rename the file **appsettings.json.example** to **appsettings.json**
 - Update the properties in the **appsettings.json** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
