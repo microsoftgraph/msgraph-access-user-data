@@ -39,7 +39,7 @@ namespace graphconsoleapp
       // (1/2) get the user we just created
       var userToUpdate = client.Users.Request()
                                      .Select("id")
-                                     .Filter("UserPrincipalName eq 'melissad@M365x285179.onmicrosoft.com'")
+                                     .Filter("UserPrincipalName eq 'melissad@M365x285179.OnMicrosoft.com'")
                                      .GetAsync()
                                      .Result[0];
       // (2/2) update the user's phone number
@@ -50,6 +50,40 @@ namespace graphconsoleapp
       // request 3: delete user
       var deleteTask = DeleteUserAsync(client, userToUpdate.Id);
       deleteTask.Wait();
+    }
+
+    private static async Task DeleteUserAsync(GraphServiceClient client, string userIdToDelete)
+    {
+      await client.Users[userIdToDelete].Request().DeleteAsync();
+    }
+
+    private static async Task<Microsoft.Graph.User> UpdateUserAsync(GraphServiceClient client, string userIdToUpdate)
+    {
+      Microsoft.Graph.User user = new Microsoft.Graph.User()
+      {
+        MobilePhone = "555-555-1212"
+      };
+      return await client.Users[userIdToUpdate].Request().UpdateAsync(user);
+    }
+
+    private static async Task<Microsoft.Graph.User> CreateUserAsync(GraphServiceClient client)
+    {
+      Microsoft.Graph.User user = new Microsoft.Graph.User()
+      {
+        AccountEnabled = true,
+        GivenName = "Melissa",
+        Surname = "Darrow",
+        DisplayName = "Melissa Darrow",
+        MailNickname = "MelissaD",
+        UserPrincipalName = "melissad@M365x285179.OnMicrosoft.com",
+        PasswordProfile = new PasswordProfile()
+        {
+          Password = "Password1!",
+          ForceChangePasswordNextSignIn = true
+        }
+      };
+      var requestNewUser = client.Users.Request();
+      return await requestNewUser.AddAsync(user);
     }
 
     private static IConfigurationRoot LoadAppSettings()
@@ -122,40 +156,6 @@ namespace graphconsoleapp
       Console.WriteLine("Enter your username");
       username = Console.ReadLine();
       return username;
-    }
-
-    private static async Task<Microsoft.Graph.User> CreateUserAsync(GraphServiceClient client)
-    {
-      Microsoft.Graph.User user = new Microsoft.Graph.User()
-      {
-        AccountEnabled = true,
-        GivenName = "Melissa",
-        Surname = "Darrow",
-        DisplayName = "Melissa Darrow",
-        MailNickname = "MelissaD",
-        UserPrincipalName = "melissad@M365x285179.onmicrosoft.com",
-        PasswordProfile = new PasswordProfile()
-        {
-          Password = "Password1!",
-          ForceChangePasswordNextSignIn = true
-        }
-      };
-      var requestNewUser = client.Users.Request();
-      return await requestNewUser.AddAsync(user);
-    }
-
-    private static async Task<Microsoft.Graph.User> UpdateUserAsync(GraphServiceClient client, string userIdToUpdate)
-    {
-      Microsoft.Graph.User user = new Microsoft.Graph.User()
-      {
-        MobilePhone = "555-555-1212"
-      };
-      return await client.Users[userIdToUpdate].Request().UpdateAsync(user);
-    }
-
-    private static async Task DeleteUserAsync(GraphServiceClient client, string userIdToDelete)
-    {
-      await client.Users[userIdToDelete].Request().DeleteAsync();
     }
   }
 }
