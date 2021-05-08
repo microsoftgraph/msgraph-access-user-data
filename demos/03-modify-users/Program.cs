@@ -39,7 +39,7 @@ namespace graphconsoleapp
       // (1/2) get the user we just created
       var userToUpdate = client.Users.Request()
                                      .Select("id")
-                                     .Filter("UserPrincipalName eq 'melissad@M365x285179.onmicrosoft.com'")
+                                     .Filter("UserPrincipalName eq 'melissad@M365x285179.OnMicrosoft.com'")
                                      .GetAsync()
                                      .Result[0];
       // (2/2) update the user's phone number
@@ -75,7 +75,7 @@ namespace graphconsoleapp
         Surname = "Darrow",
         DisplayName = "Melissa Darrow",
         MailNickname = "MelissaD",
-        UserPrincipalName = "melissad@M365x285179.onmicrosoft.com",
+        UserPrincipalName = "melissad@M365x285179.OnMicrosoft.com",
         PasswordProfile = new PasswordProfile()
         {
           Password = "Password1!",
@@ -85,6 +85,7 @@ namespace graphconsoleapp
       var requestNewUser = client.Users.Request();
       return await requestNewUser.AddAsync(user);
     }
+
 
     private static IConfigurationRoot LoadAppSettings()
     {

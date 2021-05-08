@@ -55,7 +55,7 @@ namespace graphconsoleapp
       // Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
 
       // request 2 - user's manager
-      var userId = "851f0875-e1c1-4c7e-bdec-3143bb3d4192";
+      var userId = "3f8f64d5-961f-4067-9f3e-8f5cdcf1b0df";
       var requestUserManager = client.Users[userId]
                                      .Manager
                                      .Request();

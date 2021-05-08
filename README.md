@@ -40,9 +40,10 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version | Date               | Comments                 |
+| Version |        Date        |         Comments         |
 | ------- | ------------------ | ------------------------ |
-| 1.6     | March 6, 2021      | FY2021Q3 content refresh |
+| 1.6     | May 12, 2021       | FY2021Q4 content refresh |
+| 1.5     | March 6, 2021      | FY2021Q3 content refresh |
 | 1.4     | December 10, 2020  | FY2021Q2 content refresh |
 | 1.3     | September 10, 2020 | FY2021Q1 content refresh |
 | 1.2     | June 11, 2020      | 2020Q4 content refresh   |
