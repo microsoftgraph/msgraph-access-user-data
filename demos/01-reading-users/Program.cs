@@ -51,7 +51,7 @@ namespace graphconsoleapp
       //   Console.WriteLine(requestMeUser.GetHttpRequestMessage().RequestUri);
 
       // request 3 - specific user
-      var requestSpecificUser = client.Users["97c431bf-2437-4154-acee-6865979eed54"].Request();
+      var requestSpecificUser = client.Users["97f4b654-3756-4246-9f9f-1588250f2531"].Request();
       var resultOtherUser = requestSpecificUser.GetAsync().Result;
       Console.WriteLine(resultOtherUser.Id + ": " + resultOtherUser.DisplayName + " <" + resultOtherUser.Mail + ">");
 
