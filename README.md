@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: [Access User Data from Microsoft Graph](https://www.youtube.com/watch?v=xCX53pc17M8)
+This module has been recorded and is available in the Office Development YouTube channel: [Access User Data from Microsoft Graph](https://www.youtube.com/playlist?list=PLWZJrkeLOrbZ-6xotSATX-FFP5BLQFUNm)
 
 ## Contributors
 
@@ -42,6 +42,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
+| 1.8     | September 13, 2021 | FY2022Q1 content refresh       |
 | 1.7     | May 26, 2021       | Refresh slides to new template |
 | 1.6     | May 12, 2021       | FY2021Q4 content refresh       |
 | 1.5     | March 6, 2021      | FY2021Q3 content refresh       |

@@ -52,20 +52,6 @@ namespace graphconsoleapp
       deleteTask.Wait();
     }
 
-    private static async Task DeleteUserAsync(GraphServiceClient client, string userIdToDelete)
-    {
-      await client.Users[userIdToDelete].Request().DeleteAsync();
-    }
-
-    private static async Task<Microsoft.Graph.User> UpdateUserAsync(GraphServiceClient client, string userIdToUpdate)
-    {
-      Microsoft.Graph.User user = new Microsoft.Graph.User()
-      {
-        MobilePhone = "555-555-1212"
-      };
-      return await client.Users[userIdToUpdate].Request().UpdateAsync(user);
-    }
-
     private static async Task<Microsoft.Graph.User> CreateUserAsync(GraphServiceClient client)
     {
       Microsoft.Graph.User user = new Microsoft.Graph.User()
@@ -86,6 +72,19 @@ namespace graphconsoleapp
       return await requestNewUser.AddAsync(user);
     }
 
+    private static async Task<Microsoft.Graph.User> UpdateUserAsync(GraphServiceClient client, string userIdToUpdate)
+    {
+      Microsoft.Graph.User user = new Microsoft.Graph.User()
+      {
+        MobilePhone = "555-555-1212"
+      };
+      return await client.Users[userIdToUpdate].Request().UpdateAsync(user);
+    }
+
+    private static async Task DeleteUserAsync(GraphServiceClient client, string userIdToDelete)
+    {
+      await client.Users[userIdToDelete].Request().DeleteAsync();
+    }
 
     private static IConfigurationRoot LoadAppSettings()
     {
