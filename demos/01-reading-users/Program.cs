@@ -11,9 +11,9 @@ using Helpers;
 
 namespace graphconsoleapp
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
       Console.WriteLine("Hello World!");
 
@@ -30,36 +30,37 @@ namespace graphconsoleapp
       var client = GetAuthenticatedGraphClient(config, userName, userPassword);
 
       // request 1 - all users
-      //   var requestAllUsers = client.Users.Request();
+      // var requestAllUsers = client.Users.Request();
 
-      //   var results = requestAllUsers.GetAsync().Result;
-      //   foreach (var user in results)
-      //   {
-      //     Console.WriteLine(user.Id + ": " + user.DisplayName + " <" + user.Mail + ">");
-      //   }
+      // var results = requestAllUsers.GetAsync().Result;
+      // foreach (var user in results)
+      // {
+      //   Console.WriteLine(user.Id + ": " + user.DisplayName + " <" + user.Mail + ">");
+      // }
 
-      //   Console.WriteLine("\nGraph Request:");
-      //   Console.WriteLine(requestAllUsers.GetHttpRequestMessage().RequestUri);
+      // Console.WriteLine("\nGraph Request:");
+      // Console.WriteLine(requestAllUsers.GetHttpRequestMessage().RequestUri);
 
       // request 2 - current user
-      //   var requestMeUser = client.Me.Request();
+      // var requestMeUser = client.Me.Request();
 
-      //   var resultMe = requestMeUser.GetAsync().Result;
-      //   Console.WriteLine(resultMe.Id + ": " + resultMe.DisplayName + " <" + resultMe.Mail + ">");
+      // var resultMe = requestMeUser.GetAsync().Result;
+      // Console.WriteLine(resultMe.Id + ": " + resultMe.DisplayName + " <" + resultMe.Mail + ">");
 
-      //   Console.WriteLine("\nGraph Request:");
-      //   Console.WriteLine(requestMeUser.GetHttpRequestMessage().RequestUri);
+      // Console.WriteLine("\nGraph Request:");
+      // Console.WriteLine(requestMeUser.GetHttpRequestMessage().RequestUri);
 
       // request 3 - specific user
-      var requestSpecificUser = client.Users["851f0875-e1c1-4c7e-bdec-3143bb3d4192"].Request();
+      var requestSpecificUser = client.Users["97f4b654-3756-4246-9f9f-1588250f2531"].Request();
       var resultOtherUser = requestSpecificUser.GetAsync().Result;
       Console.WriteLine(resultOtherUser.Id + ": " + resultOtherUser.DisplayName + " <" + resultOtherUser.Mail + ">");
 
       Console.WriteLine("\nGraph Request:");
       Console.WriteLine(requestSpecificUser.GetHttpRequestMessage().RequestUri);
+
     }
 
-    private static IConfigurationRoot LoadAppSettings()
+    private static IConfigurationRoot? LoadAppSettings()
     {
       try
       {
@@ -124,10 +125,10 @@ namespace graphconsoleapp
 
     private static string ReadUsername()
     {
-      string username;
+      string? username;
       Console.WriteLine("Enter your username");
       username = Console.ReadLine();
-      return username;
+      return username ?? "";
     }
   }
 }

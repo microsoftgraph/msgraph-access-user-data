@@ -11,9 +11,9 @@ using Helpers;
 
 namespace graphconsoleapp
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
       Console.WriteLine("Hello World!");
 
@@ -30,7 +30,6 @@ namespace graphconsoleapp
       var client = GetAuthenticatedGraphClient(config, userName, userPassword);
 
       // request 1 - current user's photo
-
       // var requestUserPhoto = client.Me.Photo.Request();
       // var resultsUserPhoto = requestUserPhoto.GetAsync().Result;
       // // display photo metadata
@@ -56,21 +55,25 @@ namespace graphconsoleapp
       // Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
 
       // request 2 - user's manager
-      var userId = "851f0875-e1c1-4c7e-bdec-3143bb3d4192";
+      var userId = "3f8f64d5-961f-4067-9f3e-8f5cdcf1b0df";
       var requestUserManager = client.Users[userId]
-                                     .Manager
-                                     .Request();
+                                      .Manager
+                                      .Request();
       var resultsUserManager = requestUserManager.GetAsync().Result;
       Console.WriteLine("   User: " + userId);
       Console.WriteLine("Manager: " + resultsUserManager.Id);
-      Console.WriteLine("Manager: " + (resultsUserManager as Microsoft.Graph.User).DisplayName);
-      Console.WriteLine(resultsUserManager.Id + ": " + (resultsUserManager as Microsoft.Graph.User).DisplayName + " <" + (resultsUserManager as Microsoft.Graph.User).Mail + ">");
+      var resultsUserManagerUser = resultsUserManager as Microsoft.Graph.User;
+      if (resultsUserManagerUser != null)
+      {
+        Console.WriteLine("Manager: " + resultsUserManagerUser.DisplayName);
+        Console.WriteLine(resultsUserManager.Id + ": " + resultsUserManagerUser.DisplayName + " <" + resultsUserManagerUser.Mail + ">");
+      }
 
       Console.WriteLine("\nGraph Request:");
       Console.WriteLine(requestUserManager.GetHttpRequestMessage().RequestUri);
     }
 
-    private static IConfigurationRoot LoadAppSettings()
+    private static IConfigurationRoot? LoadAppSettings()
     {
       try
       {
@@ -135,10 +138,10 @@ namespace graphconsoleapp
 
     private static string ReadUsername()
     {
-      string username;
+      string? username;
       Console.WriteLine("Enter your username");
       username = Console.ReadLine();
-      return username;
+      return username ?? "";
     }
   }
 }
