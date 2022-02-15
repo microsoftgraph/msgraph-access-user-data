@@ -30,6 +30,7 @@ namespace graphconsoleapp
       var client = GetAuthenticatedGraphClient(config, userName, userPassword);
 
       // request 1 - current user's photo
+
       // var requestUserPhoto = client.Me.Photo.Request();
       // var resultsUserPhoto = requestUserPhoto.GetAsync().Result;
       // // display photo metadata
@@ -55,7 +56,7 @@ namespace graphconsoleapp
       // Console.WriteLine(requestUserPhoto.GetHttpRequestMessage().RequestUri);
 
       // request 2 - user's manager
-      var userId = "3f8f64d5-961f-4067-9f3e-8f5cdcf1b0df";
+      var userId = "94b28744-085e-4cb0-b841-4a6f367044ab";
       var requestUserManager = client.Users[userId]
                                       .Manager
                                       .Request();
