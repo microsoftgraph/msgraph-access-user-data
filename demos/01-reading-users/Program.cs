@@ -51,13 +51,12 @@ namespace graphconsoleapp
       // Console.WriteLine(requestMeUser.GetHttpRequestMessage().RequestUri);
 
       // request 3 - specific user
-      var requestSpecificUser = client.Users["97f4b654-3756-4246-9f9f-1588250f2531"].Request();
+      var requestSpecificUser = client.Users["29f41ed8-611e-4db2-a49b-0b779b7d6d9d"].Request();
       var resultOtherUser = requestSpecificUser.GetAsync().Result;
       Console.WriteLine(resultOtherUser.Id + ": " + resultOtherUser.DisplayName + " <" + resultOtherUser.Mail + ">");
 
       Console.WriteLine("\nGraph Request:");
       Console.WriteLine(requestSpecificUser.GetHttpRequestMessage().RequestUri);
-
     }
 
     private static IConfigurationRoot? LoadAppSettings()
