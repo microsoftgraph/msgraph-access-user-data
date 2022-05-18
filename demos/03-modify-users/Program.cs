@@ -3,7 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security;
+using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Graph;
 using Microsoft.Extensions.Configuration;
@@ -25,10 +29,7 @@ namespace graphconsoleapp
         return;
       }
 
-      var userName = ReadUsername();
-      var userPassword = ReadPassword();
-
-      var client = GetAuthenticatedGraphClient(config, userName, userPassword);
+      var client = GetAuthenticatedGraphClient(config);
 
       // request 1: create user
       // var resultNewUser = CreateUserAsync(client);
@@ -39,7 +40,7 @@ namespace graphconsoleapp
       // (1/2) get the user we just created
       var userToUpdate = client.Users.Request()
                                      .Select("id")
-                                     .Filter("UserPrincipalName eq 'melissad@M365x08978750.onmicrosoft.com'")
+                                     .Filter("UserPrincipalName eq 'melissad@M365x23090844.onmicrosoft.com'")
                                      .GetAsync()
                                      .Result[0];
       // (2/2) update the user's phone number
@@ -75,7 +76,7 @@ namespace graphconsoleapp
         Surname = "Darrow",
         DisplayName = "Melissa Darrow",
         MailNickname = "MelissaD",
-        UserPrincipalName = "melissad@M365x08978750.onmicrosoft.com",
+        UserPrincipalName = "melissad@M365x23090844.onmicrosoft.com",
         PasswordProfile = new PasswordProfile()
         {
           Password = "Password1!",
@@ -109,53 +110,26 @@ namespace graphconsoleapp
       }
     }
 
-    private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config, string userName, SecureString userPassword)
+    private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config)
     {
       var clientId = config["applicationId"];
       var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
 
       List<string> scopes = new List<string>();
-      scopes.Add("User.Read");
-      scopes.Add("User.Read.All");
-      scopes.Add("User.ReadWrite.All");
+      scopes.Add("https://graph.microsoft.com/.default");
 
       var cca = PublicClientApplicationBuilder.Create(clientId)
                                               .WithAuthority(authority)
+                                              .WithDefaultRedirectUri()
                                               .Build();
-      return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray(), userName, userPassword);
+      return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray());
     }
 
-    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config, string userName, SecureString userPassword)
+    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config)
     {
-      var authenticationProvider = CreateAuthorizationProvider(config, userName, userPassword);
+      var authenticationProvider = CreateAuthorizationProvider(config);
       var graphClient = new GraphServiceClient(authenticationProvider);
       return graphClient;
-    }
-
-    private static SecureString ReadPassword()
-    {
-      Console.WriteLine("Enter your password");
-      SecureString password = new SecureString();
-      while (true)
-      {
-        ConsoleKeyInfo c = Console.ReadKey(true);
-        if (c.Key == ConsoleKey.Enter)
-        {
-          break;
-        }
-        password.AppendChar(c.KeyChar);
-        Console.Write("*");
-      }
-      Console.WriteLine();
-      return password;
-    }
-
-    private static string ReadUsername()
-    {
-      string? username;
-      Console.WriteLine("Enter your username");
-      username = Console.ReadLine();
-      return username ?? "";
     }
   }
 }
